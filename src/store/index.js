@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    step: 1,
+    step: 0,
     user: {
       email: 'hello@capraweb.pl',
       password: '12345',
