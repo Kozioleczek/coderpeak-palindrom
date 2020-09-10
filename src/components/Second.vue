@@ -88,14 +88,14 @@ export default {
     ...mapState(['data']),
   },
   methods: {
-    ...mapActions(['getInitStore', 'checkStringPalindrome', 'deleteEntry']),
+    ...mapActions(['getInitStore', 'appendEntry', 'deleteEntry']),
     get() {
       this.getInitStore();
     },
     check() {
       const regex = /^\+?[0-9.-]+$/;
       if (regex.test(this.query) === false && this.query !== null && this.query !== '') {
-        this.checkStringPalindrome(this.query);
+        this.appendEntry(this.query);
         this.error = false;
         this.success = true;
         this.feedback = 'Yours string is correct';

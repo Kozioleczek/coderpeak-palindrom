@@ -19,7 +19,7 @@ export default new Vuex.Store({
   mutations: {
     SET_INIT_STORE(state, data) {
       this.state.data = data;
-      // Append
+      // Append local Storage user entries
       if (localStorage.getItem('userEntries')) {
         this.state.data.push(...JSON.parse(localStorage.getItem('userEntries')));
       }
@@ -67,7 +67,7 @@ export default new Vuex.Store({
         console.log('Bład');
       }
     },
-    checkStringPalindrome({ commit }, string) {
+    appendEntry({ commit }, string) {
       const pal = new Palindrome(string);
       if (pal.check()) {
         const res = { text: string, isPalindrom: true, type: 'user' };
