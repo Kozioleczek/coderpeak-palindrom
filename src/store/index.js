@@ -19,6 +19,10 @@ export default new Vuex.Store({
   mutations: {
     SET_INIT_STORE(state, data) {
       this.state.data = data;
+      // Append
+      if (localStorage.getItem('userEntries')) {
+        this.state.data.push(...JSON.parse(localStorage.getItem('userEntries')));
+      }
     },
     SET_AUTH_STATUS(state, status) {
       this.state.isAuthenticated = status;
@@ -29,6 +33,12 @@ export default new Vuex.Store({
     APPEND_DATA(state, string) {
       state.data.push(string);
     },
+    DELETE_ENTRY(state, entry) {
+      state.data.splice(entry, 1);
+      // Save user data to localStorage. Exclude initial entries from initial-store.json
+      const userEntires = this.state.data.filter((e) => e.type === 'user');
+      localStorage.setItem('userEntries', JSON.stringify(userEntires));
+    },
   },
   getters: {
     userEmail: (state) => state.user.email,
@@ -37,6 +47,7 @@ export default new Vuex.Store({
   actions: {
     getInitStore({ commit }) {
       console.log(init);
+      // Set initial store from initial-store.json
       commit('SET_INIT_STORE', init);
     },
     loginUser({ commit, getters }, details) {
@@ -65,6 +76,12 @@ export default new Vuex.Store({
         const res = { text: string, isPalindrom: false, type: 'user' };
         commit('APPEND_DATA', res);
       }
+      // Save user data to localStorage. Exclude initial entries from initial-store.json
+      const userEntires = this.state.data.filter((e) => e.type === 'user');
+      localStorage.setItem('userEntries', JSON.stringify(userEntires));
+    },
+    deleteEntry({ commit }, entry) {
+      commit('DELETE_ENTRY', entry);
     },
   },
   modules: {

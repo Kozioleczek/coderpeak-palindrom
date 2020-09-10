@@ -104,7 +104,14 @@
                   <td>{{entry.text}}</td>
                   <td>{{entry.isPalindrom}}</td>
                   <td>{{entry.type}}</td>
-                  <td><button class="btn btn-sm btn-outline-dark">Delete</button></td>
+                  <td>
+                    <button
+                      class="btn btn-sm btn-outline-dark"
+                      @click="splice(index)"
+                      >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -112,12 +119,6 @@
         </div>
       </div>
       <!-- End of Second screen with input -->
-      <div id="debug" class="row">
-        <div class="col-12">
-          <button @click="get">Init store</button>
-          <span>Step: {{this.step}} </span>
-        </div>
-      </div>
       <div class="row">
         <div class="col-12 text-center">
           <p class="text-muted">Source code avalible here: <a href="https://github.com/Kozioleczek/coderpeak-palindrom">Github</a></p>
@@ -147,8 +148,11 @@ export default {
   computed: {
     ...mapState(['step', 'data']),
   },
+  mounted() {
+    this.get();
+  },
   methods: {
-    ...mapActions(['getInitStore', 'loginUser', 'checkStringPalindrome']),
+    ...mapActions(['getInitStore', 'loginUser', 'checkStringPalindrome', 'deleteEntry']),
     get() {
       this.getInitStore();
     },
@@ -167,6 +171,9 @@ export default {
         this.success = false;
         this.feedback = 'You have inputed just numbers. This is not correct string';
       }
+    },
+    splice(entry) {
+      this.deleteEntry(entry);
     },
   },
 };
