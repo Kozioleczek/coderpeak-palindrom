@@ -23,14 +23,22 @@
                 id="emailInput"
                 aria-describedby="emailHelp"
                 placeholder="Enter email"
+                v-model="details.email"
               >
             </div>
             <div class="form-group">
               <label for="passwordInput">Password</label>
-              <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+              <input
+                type="password"
+                class="form-control"
+                id="passwordInput"
+                placeholder="Password"
+                v-model="details.password"
+              >
             </div>
             <button
             class="btn btn-primary w-100 btn-lg"
+            @click="login"
             >
             Login in
             </button>
@@ -61,12 +69,19 @@ export default {
   data() {
     return {
       step: 0,
+      details: {
+        email: null,
+        password: null,
+      },
     };
   },
   methods: {
-    ...mapActions(['getInitStore']),
+    ...mapActions(['getInitStore', 'loginUser']),
     get() {
       this.getInitStore();
+    },
+    login() {
+      this.loginUser(this.details);
     },
   },
 };
