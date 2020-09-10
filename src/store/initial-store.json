@@ -1,22 +1,27 @@
 [
     {
         "string": "Zagwiżdż i w gaz",
+        "type": "json",
         "isPalindrom": true
     },
     {
         "string": "Żartem dano nadmetraż",
+        "type": "json",
         "isPalindrom": true
     },
     {
         "string": "Ala ma kota",
+        "type": "json",
         "isPalindrom": false
     },
     {
         "string": "Nawijaj Iwan",
+        "type": "json",
         "isPalindrom": true
     },
     {
         "string": "Nie jest łatwo przez ocean płynąć tratwą",
+        "type": "json",
         "isPalindrom": false
     }
 ]

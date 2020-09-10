@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <div class="container">
+      <!-- Home page with login in -->
       <div
         id="home"
         class="row mb-3"
-        v-if="step === 0"
+        v-if="this.step === 0"
       >
         <div class="col-12 text-center mb-3">
           <h1>Palindrom Checker</h1>
@@ -47,13 +48,63 @@
 
         </div>
       </div>
+      <!-- End of Home page with login in -->
+      <!-- Second screen with input -->
+      <div
+        id="second"
+        class="row mb-3"
+        v-if="this.step === 1"
+      >
+        <div class="col-12 text-center mb-3">
+          <h1>Input string and check if it is palindrome.</h1>
+        </div>
+        <div class="col-lg-8 col-12 mx-auto mb-5">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              placeholder="Input string to check"
+              aria-label="Input string to check"
+              aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button">Check</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 mx-auto col-12 text-left">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">String</th>
+                  <th scope="col">Palindrome</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(entry, index) in this.data" :key="index">
+                  <th scope="row">{{index}}</th>
+                  <td>{{entry.string}}</td>
+                  <td>{{entry.isPalindrom}}</td>
+                  <td>{{entry.type}}</td>
+                  <td><button class="btn btn-sm btn-outline-dark">Delete</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- End of Second screen with input -->
       <div id="debug" class="row">
         <div class="col-12">
           <button @click="get">Init store</button>
+          <span>Step: {{this.step}} </span>
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 text-center">
           <p class="text-muted">Source code avalible here: <a href="https://github.com/Kozioleczek/coderpeak-palindrom">Github</a></p>
         </div>
       </div>
@@ -62,18 +113,20 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'App',
   data() {
     return {
-      step: 0,
       details: {
         email: null,
         password: null,
       },
     };
+  },
+  computed: {
+    ...mapState(['step', 'data']),
   },
   methods: {
     ...mapActions(['getInitStore', 'loginUser']),
@@ -97,7 +150,6 @@ export default {
   font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
