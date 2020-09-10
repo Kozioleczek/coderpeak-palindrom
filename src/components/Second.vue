@@ -94,12 +94,16 @@ export default {
     },
     check() {
       const regex = /^\+?[0-9.-]+$/;
-      if (regex.test(this.query) === false) {
+      if (regex.test(this.query) === false && this.query !== null && this.query !== '') {
         this.checkStringPalindrome(this.query);
         this.error = false;
         this.success = true;
         this.feedback = 'Yours string is correct';
-      } else {
+      } if (this.query === '' || this.query === null) {
+        this.error = true;
+        this.success = false;
+        this.feedback = 'You did not input any data!';
+      } if (regex.test(this.query) === true && this.query !== null) {
         this.error = true;
         this.success = false;
         this.feedback = 'You have inputed just numbers. This is not correct string';
