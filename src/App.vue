@@ -65,12 +65,27 @@
               class="form-control form-control-lg"
               placeholder="Input string to check"
               aria-label="Input string to check"
-              aria-describedby="basic-addon2">
+              aria-describedby="basic-addon2"
+              v-model="query"
+              >
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button">Check</button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                @click="check"
+                >
+              Check palindrome
+              </button>
             </div>
           </div>
+          <div class="invalid-feedback d-block" v-if="error == true">
+              {{ feedback }}
+          </div>
+           <div class="valid-feedback d-block" v-if="success == true">
+              {{ feedback }}
+          </div>
         </div>
+
         <div class="col-lg-8 mx-auto col-12 text-left">
           <div class="table-responsive">
             <table class="table">
@@ -86,7 +101,7 @@
               <tbody>
                 <tr v-for="(entry, index) in this.data" :key="index">
                   <th scope="row">{{index}}</th>
-                  <td>{{entry.string}}</td>
+                  <td>{{entry.text}}</td>
                   <td>{{entry.isPalindrom}}</td>
                   <td>{{entry.type}}</td>
                   <td><button class="btn btn-sm btn-outline-dark">Delete</button></td>
@@ -119,22 +134,39 @@ export default {
   name: 'App',
   data() {
     return {
+      query: null,
       details: {
         email: null,
         password: null,
       },
+      error: false,
+      success: false,
+      feedback: null,
     };
   },
   computed: {
     ...mapState(['step', 'data']),
   },
   methods: {
-    ...mapActions(['getInitStore', 'loginUser']),
+    ...mapActions(['getInitStore', 'loginUser', 'checkStringPalindrome']),
     get() {
       this.getInitStore();
     },
     login() {
       this.loginUser(this.details);
+    },
+    check() {
+      const regex = /^\+?[0-9.-]+$/;
+      if (regex.test(this.query) === false) {
+        this.checkStringPalindrome(this.query);
+        this.error = false;
+        this.success = true;
+        this.feedback = 'Yours string is correct';
+      } else {
+        this.error = true;
+        this.success = false;
+        this.feedback = 'You have inputed just numbers. This is not correct string';
+      }
     },
   },
 };

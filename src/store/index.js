@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Palindrome from '@/functions/check-palindrome';
 
 const init = require('./initial-store.json');
 
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     CHANGE_STEP(state, step) {
       this.state.step = step;
     },
+    APPEND_DATA(state, string) {
+      state.data.push(string);
+    },
   },
   getters: {
     userEmail: (state) => state.user.email,
@@ -41,7 +45,7 @@ export default new Vuex.Store({
       // Storing any sensitive data on client side is allowing user to get it with
       // minimal effort, just by using Developer Console build in web browser
       // The better solution to auth user was presented in my app CapraCutie, where
-      // user authorisation is basen on CSRF cookies delivered by backend run on
+      // user authorisation is based on CSRF cookies delivered by backend running on
       // Laravel with Sanctum
 
       // eslint-disable-next-line max-len
@@ -50,6 +54,16 @@ export default new Vuex.Store({
         commit('CHANGE_STEP', 1);
       } else {
         console.log('Bład');
+      }
+    },
+    checkStringPalindrome({ commit }, string) {
+      const pal = new Palindrome(string);
+      if (pal.check()) {
+        const res = { text: string, isPalindrom: true, type: 'user' };
+        commit('APPEND_DATA', res);
+      } else {
+        const res = { text: string, isPalindrom: false, type: 'user' };
+        commit('APPEND_DATA', res);
       }
     },
   },
